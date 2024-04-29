@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "UE5_DyingLight",
+			"Path": "..\\Source\\UE5_DyingLight.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "UE5_DyingLightEditor",
+			"Path": "..\\Source\\UE5_DyingLightEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
