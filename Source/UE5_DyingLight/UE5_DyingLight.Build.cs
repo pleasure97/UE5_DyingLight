@@ -8,6 +8,19 @@ public class UE5_DyingLight : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
-	}
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{ "Core", 
+			"CoreUObject", 
+			"Engine", 
+			"InputCore", 
+			"EnhancedInput",
+			
+
+		});
+
+        PrivateDependencyModuleNames.AddRange(new string[] { });
+
+        PublicIncludePaths.Add(ModuleDirectory);
+
+    }
 }
