@@ -5,6 +5,15 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "CPP_Parkouror.h"
+
+
+
 #include "ParkourActorComponent.generated.h"
 
 
@@ -17,6 +26,8 @@ public:
 	// Sets default values for this component's properties
 	UParkourActorComponent();
 
+	enum EDrawDebugTrace::Type Setting = EDrawDebugTrace::ForDuration;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -27,6 +38,7 @@ public:
 
 
 public:
-	void ClimbTrace(ACharacter* Actor, FVector& Start, FVector& Middle, FVector& Last, bool Sussess);
-		
+	void ClimbTrace(ACharacter* CharacterRef, FVector& Start, FVector& Middle, FVector& Last, bool& Sussess,float Radius);
+	void ClimbOn(ACharacter* CharacterRef, FVector ActionValue, bool& CanHanging, float& HangingValue);
+	void ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove);
 };

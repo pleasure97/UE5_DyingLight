@@ -10,11 +10,15 @@
 #include "ParkourActorComponent.h"
 #include "Data/Input/BasicInputDataConfig.h"
 #include "TimerManager.h"
+#include "Data/DataTable/CharacterAction.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Components/CapsuleComponent.h"
 
 ACPP_ParkourPlayerController::ACPP_ParkourPlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	ParkourActorComponent = CreateDefaultSubobject<UParkourActorComponent>("Parkour");
+	
 }
 
 void ACPP_ParkourPlayerController::PostInitializeComponents()
@@ -56,7 +60,7 @@ void ACPP_ParkourPlayerController::SetupInputComponent()
 void ACPP_ParkourPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	ACharacter* ControlledPawn = Cast<ACharacter>(GetPawn());
+	ACPP_Parkouror* ControlledPawn = Cast<ACPP_Parkouror>(GetPawn());
 	const FVector ActorLocation = ControlledPawn->GetActorLocation();
 	GEngine->AddOnScreenDebugMessage(0, 5.0f, FColor::Blue, FString::SanitizeFloat(ControlledPawn->GetCharacterMovement()->MaxWalkSpeed));
 	if (!RunOnOff)
@@ -65,11 +69,12 @@ void ACPP_ParkourPlayerController::Tick(float DeltaTime)
 		CurrentWalkSpeed = FMath::Clamp(MaxWalkSpeed - (MaxWalkSpeed / 2 * GetWorld()->GetDeltaSeconds()), 300, 900);
 		ControlledPawn->GetCharacterMovement()->MaxWalkSpeed = CurrentWalkSpeed;
 	}
+	
 	if (ControlledPawn->GetCharacterMovement()->IsFalling())
 	{
-		if (CanMove) 
+		if (CanMove && !bCanHanging) 
 		{
-			ParkourActorComponent->ClimbTrace(ControlledPawn,StartPos, MiddlePos, LastPos, CanParkourSussess);
+			ParkourActorComponent->ClimbTrace(ControlledPawn,StartPos, MiddlePos, LastPos, bCanHanging, ControlledPawn->GetCapsuleComponent()->GetScaledCapsuleRadius());
 		}
 	}
 }
@@ -92,10 +97,12 @@ void ACPP_ParkourPlayerController::OnMove(const FInputActionValue& InputActionVa
 	const FRotator YawRotation = FRotator(0, Rotation.Yaw, 0.);
 	const FVector ForwardVector = YawRotation.Vector();
 	const FVector RightVector = FRotationMatrix(YawRotation).GetScaledAxis(EAxis::Y);
-
+	UCharacterMovementComponent* MovementComponent = CharacterRef->GetCharacterMovement();
 	const FVector ActionValue = InputActionValue.Get<FVector>();
-	if (CanMove) ControlledPawn->AddMovementInput(ForwardVector, ActionValue.Y);
-	if (CanMove) if (CharacterRef->GetCharacterMovement()->MaxWalkSpeed < 500)ControlledPawn->AddMovementInput(RightVector, ActionValue.X);
+	// Hanging 실행 구문
+	ParkourActorComponent->ClimbOn(CharacterRef, ActionValue, bCanHanging, HangingValue);
+	if (CanMove && !bCanHanging) ControlledPawn->AddMovementInput(ForwardVector, ActionValue.Y);
+	if (CanMove && !bCanHanging) if (CharacterRef->GetCharacterMovement()->MaxWalkSpeed < 500)ControlledPawn->AddMovementInput(RightVector, ActionValue.X);
 	if (abs(ActionValue.X) > 0) CharacterRef->SideMove = ActionValue.X * 100;
 
 }
@@ -137,6 +144,7 @@ void ACPP_ParkourPlayerController::OnMoveCompleted(const FInputActionValue& Inpu
 {
 	ACPP_Parkouror* CharacterRef = Cast<ACPP_Parkouror>(GetPawn());
 	CharacterRef->SideMove = 0;
+	HangingValue = 0;
 }
 
 void ACPP_ParkourPlayerController::OnLook(const FInputActionValue& InputActionValue)
@@ -144,8 +152,8 @@ void ACPP_ParkourPlayerController::OnLook(const FInputActionValue& InputActionVa
 	const FVector ActionValue = InputActionValue.Get<FVector>();
 	if (!RunOnOff)
 	{
-		if (CanMove)AddYawInput(ActionValue.X);
-		if (CanMove)AddPitchInput(ActionValue.Y);
+		if (CanMove && !bCanHanging)AddYawInput(ActionValue.X);
+		if (CanMove && !bCanHanging)AddPitchInput(ActionValue.Y);
 	}
 	else
 	{

@@ -20,7 +20,7 @@ public class UE5_DyingLight : ModuleRules
 
         PrivateDependencyModuleNames.AddRange(new string[] { });
 
-        PublicIncludePaths.Add(ModuleDirectory);
-
+        PublicIncludePaths.Add("UE5_DyingLight");
+        PublicIncludePaths.Add("UE5_DyingLight/ParkourPlayer");
     }
 }

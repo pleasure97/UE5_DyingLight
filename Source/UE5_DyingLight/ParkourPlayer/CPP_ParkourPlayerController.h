@@ -19,7 +19,10 @@ public:
 	bool CanMove = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool CanHanging;
+	bool bCanHanging = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float HangingValue = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool RunOnOff = false;
@@ -32,6 +35,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanDoubleTab = false;
 
+	UDataTable* AnimationDataTable = nullptr;
+
 	float CurrentWalkSpeed;
 
 	FTimerHandle TimerHandle;
@@ -42,7 +47,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class UParkourActorComponent* ParkourActorComponent;
-	bool CanParkourSussess = false;
+
+
 
 public:
 	ACPP_ParkourPlayerController();
