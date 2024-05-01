@@ -166,6 +166,7 @@ void UParkourActorComponent::ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove
 					CharacterRef->MiddleParkour = FVector(ActorLocalVector.X, ActorLocalVector.Y, HitResult.Location.Z - 7.3);
 					CharacterRef->LastParkour = HitResult.Location;
 					CharacterRef->Warping();
+					CanMove = false;
 				}
 				else
 				{
