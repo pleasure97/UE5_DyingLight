@@ -40,5 +40,5 @@ public:
 public:
 	void ClimbTrace(ACharacter* CharacterRef, FVector& Start, FVector& Middle, FVector& Last, bool& Sussess,float Radius);
 	void ClimbOn(ACharacter* CharacterRef, FVector ActionValue, bool& CanHanging, float& HangingValue);
-	void ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove);
+	void ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove, bool& CanHanging);
 };

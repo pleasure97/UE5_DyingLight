@@ -168,7 +168,7 @@ void ACPP_ParkourPlayerController::OnJump(const FInputActionValue& InputActionVa
 	const FVector ActorLocation = ControlledPawn->GetActorLocation();
 	ACPP_Parkouror* CharacterRef = Cast<ACPP_Parkouror>(GetPawn());
 
-	ParkourActorComponent->ClimbUp(CharacterRef, CanMove);
+	ParkourActorComponent->ClimbUp(CharacterRef, CanMove, bCanHanging);
 	if (CanMove) ControlledPawn->Jump();
 }
 

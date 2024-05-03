@@ -134,7 +134,7 @@ void UParkourActorComponent::ClimbOn(ACharacter* CharacterRef, FVector ActionVal
 
 
 
-void UParkourActorComponent::ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove)
+void UParkourActorComponent::ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove, bool& CanHanging)
 {
 	FVector ActorLocalVector = CharacterRef->GetActorLocation();
 	UKismetSystemLibrary* Trace;
@@ -167,6 +167,7 @@ void UParkourActorComponent::ClimbUp(ACPP_Parkouror* CharacterRef, bool& CanMove
 					CharacterRef->LastParkour = HitResult.Location;
 					CharacterRef->Warping();
 					CanMove = false;
+					CanHanging = false;
 				}
 				else
 				{
