@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ParkourPlayer/CPP_Parkouror.h"
+#include "ParkourPlayer/Character/CPP_Parkouror.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACPP_Parkouror::ACPP_Parkouror(const FObjectInitializer& ObjectInitializer)

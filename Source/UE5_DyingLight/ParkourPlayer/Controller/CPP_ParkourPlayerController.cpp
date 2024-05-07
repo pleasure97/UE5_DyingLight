@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ParkourPlayer/CPP_ParkourPlayerController.h"
+#include "ParkourPlayer/Controller/CPP_ParkourPlayerController.h"
 #include "GameFramework//Character.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "CPP_Parkouror.h"
+#include "Character/CPP_Parkouror.h"
 #include "GameFramework//CharacterMovementComponent.h"
-#include "ParkourActorComponent.h"
+#include "Component/ParkourActorComponent.h"
 #include "Data/Input/BasicInputDataConfig.h"
 #include "TimerManager.h"
 #include "Data/DataTable/CharacterAction.h"

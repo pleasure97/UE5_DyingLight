@@ -10,7 +10,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "CPP_Parkouror.h"
+#include "Character/CPP_Parkouror.h"
 
 
 
