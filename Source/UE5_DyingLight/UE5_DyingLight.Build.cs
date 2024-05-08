@@ -8,19 +8,18 @@ public class UE5_DyingLight : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] 
-		{ "Core", 
-			"CoreUObject", 
-			"Engine", 
-			"InputCore", 
+		PublicDependencyModuleNames.AddRange(new string[]
+		{ "Core",
+			"CoreUObject",
+			"Engine",
+			"InputCore",
 			"EnhancedInput",
-			
-
+			"CableComponent",
+			"AIModule",
+			"MotionWarping"
 		});
-
-        PrivateDependencyModuleNames.AddRange(new string[] { });
 
         PublicIncludePaths.Add("UE5_DyingLight");
         PublicIncludePaths.Add("UE5_DyingLight/ParkourPlayer");
-    }
+	}
 }
