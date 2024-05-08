@@ -52,9 +52,9 @@ void ACPP_ParkourPlayerController::SetupInputComponent()
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->Look, ETriggerEvent::Triggered, this, &ThisClass::OnLook);
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->Jump, ETriggerEvent::Started, this, &ThisClass::OnJump);
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->Jump, ETriggerEvent::Completed, this, &ThisClass::OffJump);
-	EnhancedInputComponent->BindAction(BasicInputDataConfig->LeftShift, ETriggerEvent::Triggered, this, &ThisClass::LeftShift);
+	/*EnhancedInputComponent->BindAction(BasicInputDataConfig->LeftShift, ETriggerEvent::Triggered, this, &ThisClass::LeftShift);
 	EnhancedInputComponent->BindAction(BasicInputDataConfig->LeftShift, ETriggerEvent::Completed, this, &ThisClass::LeftShiftCompleted);
-	EnhancedInputComponent->BindAction(BasicInputDataConfig->LeftClick, ETriggerEvent::Started, this, &ThisClass::LeftClick);
+	EnhancedInputComponent->BindAction(BasicInputDataConfig->LeftClick, ETriggerEvent::Started, this, &ThisClass::LeftClick);*/
 }
 
 void ACPP_ParkourPlayerController::Tick(float DeltaTime)

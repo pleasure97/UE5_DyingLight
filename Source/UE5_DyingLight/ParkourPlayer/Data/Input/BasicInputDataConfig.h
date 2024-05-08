@@ -23,7 +23,11 @@ public:
 	UInputAction* Move = nullptr;
 	UInputAction* Look = nullptr;
 	UInputAction* Jump = nullptr;
-	UInputAction* LeftShift = nullptr;
-	UInputAction* LeftClick = nullptr;
+	UInputAction* GrappleRope = nullptr;
+	UInputAction* Slide = nullptr;
+	UInputAction* Mantle = nullptr;
+	UInputAction* Sprint = nullptr;
+	UInputAction* DropKick = nullptr;
+	UInputAction* Attack = nullptr;
 
 };
