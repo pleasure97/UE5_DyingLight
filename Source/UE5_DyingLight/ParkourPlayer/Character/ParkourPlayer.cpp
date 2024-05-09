@@ -19,15 +19,20 @@ AParkourPlayer::AParkourPlayer(const FObjectInitializer& ObjectInitializer)
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, 0.f, -90.f)); 
 
+	// Create a Motion Warping Component
+	GrappleRope = CreateDefaultSubobject<UCableComponent>(TEXT("GrappleRope")); 
+	GrappleRope->SetRelativeLocation(FVector(0.f, 0.f, 40.f)); 
+	GrappleRope->EndLocation = FVector(0.f, 0.f, 40.f); 
+	GrappleRope->CableLength = 0.f; 
+	GrappleRope->CableWidth = 8.f; 
 	
-	
+	// Create a Motion Warping Component
+	MotionWarping = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarping"));
+
 	// Create an AI Perception Stimuli Source Component
 	AIPerceptionStimuliSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("AIPerceptionStimuliSource"));
-
-	// Create a Motion Warping Component
-	MotionWarping = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarping")); 
 }
-
+	
 
 // Called when the game starts or when spawned
 void AParkourPlayer::BeginPlay()
@@ -47,15 +52,4 @@ void AParkourPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 }
-
-void AParkourPlayer::ShootGrappleHook()
-{
-
-}
-
-void AParkourPlayer::ResetGrappleHook()
-{
-
-}
-
 

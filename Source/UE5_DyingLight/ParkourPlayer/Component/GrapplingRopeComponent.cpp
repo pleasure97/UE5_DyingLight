@@ -2,6 +2,7 @@
 
 
 #include "ParkourPlayer/Component/GrapplingRopeComponent.h"
+#include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -11,9 +12,7 @@ UGrapplingRopeComponent::UGrapplingRopeComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
 	
-
 	GrappleShootTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("GrappleShootTimeline"));
 	{
 		static ConstructorHelpers::FObjectFinder<UCurveFloat> ObjectFinder(TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_GrappleShootTimeline.Curve_GrappleShootTimeline'"));
@@ -27,6 +26,7 @@ UGrapplingRopeComponent::UGrapplingRopeComponent()
 		GrappleShootTimeline->SetPlayRate(0.5f);
 		GrappleShootTimeline->SetLooping(true);
 	}
+
 	
 }
 
@@ -36,33 +36,7 @@ void UGrapplingRopeComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	AActor* Owner = GetOwner(); 
-
-	if (Owner)
-	{
-		GrappleRope = NewObject<UCableComponent>(Owner, UCableComponent::StaticClass(), TEXT("GrappleRope"));
-		if (GrappleRope)
-		{
-			GrappleRope->RegisterComponent(); 
-			GrappleRope->AttachToComponent(Owner->GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale)); 
-
-			GrappleRope->SetRelativeLocation(FVector(0.f, 0.f, 40.f));
-			GrappleRope->EndLocation = FVector(0.f, 0.f, 40.f);
-			GrappleRope->CableLength = 0.f;
-			GrappleRope->CableWidth = 8.f;
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Failed to setup grapple rope in GrapplingRopeComponent::BeginPlay()"))
-		}
-		
-		// To be implemented
-		GrappleShootTimeline = NewObject<UTimelineComponent>(Owner, )
-	}
-
-	UCurveFloat* InterpSpeed = Cast<UCurveFloat>(StaticLoadObject(UCurveFloat::StaticClass(), nullptr, TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_GrappleShootTimeline.Curve_GrappleShootTimeline'")));
-
+	InterpSpeed = Cast<UCurveFloat>(StaticLoadObject(UCurveFloat::StaticClass(), nullptr, TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_GrappleShootTimeline.Curve_GrappleShootTimeline'")));
 }
 
 
@@ -87,6 +61,7 @@ void UGrapplingRopeComponent::GrappleHook()
 		GrappleHookEnabled = true;
 
 		UCameraComponent* FollowCamera = Cast<UCameraComponent>(Owner->GetComponentByClass(UCameraComponent::StaticClass()));
+		UCableComponent* GrappleRope = Cast<UCableComponent>(Owner->GetComponentByClass(UCableComponent::StaticClass()));
 
 		const FVector& Start = GrappleRope->GetComponentLocation();
 		const FVector& End = Start + FollowCamera->GetForwardVector() * GrappleHookDistance;
@@ -150,4 +125,5 @@ void UGrapplingRopeComponent::GrappleHook()
 		}
 	}
 }
+
 

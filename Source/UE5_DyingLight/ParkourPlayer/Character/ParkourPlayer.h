@@ -3,11 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "CableComponent.h"
 #include "MotionWarpingComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Component/GrapplingRopeComponent.h"
+#include "Component/SlidingComponent.h"
 #include "UE5_DyingLightCharacter.h"
 #include "ParkourPlayer.generated.h"
 
@@ -33,14 +35,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UAIPerceptionStimuliSourceComponent* AIPerceptionStimuliSource; 
+	UPROPERTY(EditAnywhere)
+	UCableComponent* GrappleRope;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMotionWarpingComponent* MotionWarping;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAIPerceptionStimuliSourceComponent* AIPerceptionStimuliSource; 
 
-// General
+// parkour action state 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanMove = true; 
@@ -58,14 +62,14 @@ protected:
 	bool IsLedgeClimbing = true;
 
 
+// parkour action component
+protected:
 
-// Sliding
+	UPROPERTY(EditAnywhere)
+	UGrapplingRopeComponent* GrapplingRopeComponent = nullptr; 
 
-// Sprinting
-
-// Mantling
-
-// LedgeClimbing 
+	UPROPERTY(EditAnywhere)
+	USlidingComponent* SlidingComponent = nullptr; 
 
 
 

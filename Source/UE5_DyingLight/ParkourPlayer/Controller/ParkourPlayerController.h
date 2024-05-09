@@ -14,6 +14,8 @@ UCLASS()
 class UE5_DYINGLIGHT_API AParkourPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+	friend class AParkourPlayer; 
 	
 protected:
 	virtual void BeginPlay() override; 

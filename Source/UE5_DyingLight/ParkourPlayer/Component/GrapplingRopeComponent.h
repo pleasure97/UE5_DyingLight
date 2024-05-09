@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Character/ParkourPlayer.h"
+#include "Camera/CameraComponent.h"
 #include "CableComponent.h"
 #include "Components/TimelineComponent.h"
 #include "GrapplingRopeComponent.generated.h"
@@ -26,10 +26,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-protected:
-	UPROPERTY(EditAnywhere, Category = "Grapple Hook")
-	UCableComponent* GrappleRope; 
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Grapple Hook")
@@ -56,12 +52,7 @@ protected:
 	
 
 protected:
-
 	UFUNCTION()
 	void GrappleHook(); 
-
-
-
-
-		
+	
 };
