@@ -19,27 +19,7 @@ AParkourPlayer::AParkourPlayer(const FObjectInitializer& ObjectInitializer)
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -90.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, 0.f, -90.f)); 
 
-	// Create a cable component 
-	GrappleRope = CreateDefaultSubobject<UCableComponent>(TEXT("GrappleRope")); 
-	GrappleRope->SetupAttachment(RootComponent); 
-	GrappleRope->SetRelativeLocation(FVector(0.f, 0.f, 40.f)); 
-	GrappleRope->EndLocation = FVector(0.f, 0.f, 40.f); 
-	GrappleRope->CableLength = 0.f; 
-	GrappleRope->CableWidth = 8.f; 
-
-	GrappleShootTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("GrappleShootTimeline"));
-	{
-		static ConstructorHelpers::FObjectFinder<UCurveFloat> ObjectFinder(TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_GrappleShootTimeline.Curve_GrappleShootTimeline'")); 
-		ensure(ObjectFinder.Object);
-
-		FOnTimelineFloat Delegate; 
-
-		Delegate.BindUFunction(this, TEXT("OnSunPower"));
-
-		GrappleShootTimeline->AddInterpFloat(ObjectFinder.Object, Delegate);
-		GrappleShootTimeline->SetPlayRate(0.5f);
-		GrappleShootTimeline->SetLooping(true);
-	}
+	
 	
 	// Create an AI Perception Stimuli Source Component
 	AIPerceptionStimuliSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("AIPerceptionStimuliSource"));
@@ -68,9 +48,14 @@ void AParkourPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent); 
 }
 
-float AParkourPlayer::ShootGrappleHook()
+void AParkourPlayer::ShootGrappleHook()
 {
-	return 0.0f;
+
+}
+
+void AParkourPlayer::ResetGrappleHook()
+{
+
 }
 
 

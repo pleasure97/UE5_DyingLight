@@ -45,55 +45,6 @@ void AParkourPlayerController::Move(const FInputActionValue& InputActionValue)
 
 void AParkourPlayerController::GrappleRope(const FInputActionValue& InputActionValue)
 {
-	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
-
-	if (ParkourPlayer->CanGrappleHook)
-	{
-		ParkourPlayer->CanGrappleHook = false; 
-		ParkourPlayer->GrappleHookEnabled = true;
-
-		const FVector& Start = ParkourPlayer->GrappleRope->GetComponentLocation(); 
-		const FVector& End = Start + ParkourPlayer->GetFollowCamera()->GetForwardVector() * ParkourPlayer->GrappleHookDistance; 
-
-		TArray<AActor*> IgnoreActors; 
-
-		FHitResult HitResult;
-
-		const bool bHit = 
-			UKismetSystemLibrary::LineTraceSingle(ParkourPlayer, Start, End, ETraceTypeQuery::TraceTypeQuery1, false, IgnoreActors, EDrawDebugTrace::ForDuration, HitResult, true);
-
-		if (bHit)
-		{
-			ParkourPlayer->HookLocation = HitResult.Location; 
-
-			// shoot grapple hook 
-			ParkourPlayer->GrappleRope->SetVisibility(true); 
-
-
-
-			ParkourPlayer->GrappleRope->SetWorldLocation(NewLocation); 
-			ParkourPlayer->LaunchCharacter(FVector(0.f, 0.f, 500.f), true, true); 
-
-			FTimerHandle Timer; 
-			GetWorldTimerManager().SetTimer(Timer, 0.4f, false); 
-
-			// reset grapple hook 
-
-
-			GetWorldTimerManager().ClearTimer(Timer); 
-
-
-
-		}
-		else
-		{
-			// reset grapple hook 
-
-		}
-
-
-	}
-
 }
 
 void AParkourPlayerController::Slide(const FInputActionValue& InputActionValue)

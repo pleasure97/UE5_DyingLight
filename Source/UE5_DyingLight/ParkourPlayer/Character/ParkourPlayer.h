@@ -6,11 +6,9 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "CableComponent.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "MotionWarpingComponent.h"
 #include "UE5_DyingLightCharacter.h"
-#include "Components/TimelineComponent.h"
 #include "ParkourPlayer.generated.h"
 
 
@@ -18,8 +16,6 @@ UCLASS()
 class UE5_DYINGLIGHT_API AParkourPlayer : public AUE5_DyingLightCharacter
 {
 	GENERATED_BODY()
-
-	friend class AParkourPlayerController;
 
 public:
 	// Sets default values for this character's properties
@@ -38,9 +34,6 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UCableComponent* GrappleRope; 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAIPerceptionStimuliSourceComponent* AIPerceptionStimuliSource; 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -52,27 +45,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanMove = true; 
 
-// Grappling Rope
-protected:
-	UPROPERTY(EditAnywhere)
-	bool CanGrappleHook = true; 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsGrappling = true;
 
-	UPROPERTY(EditAnywhere)
-	float GrappleHookDistance = 1500.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsSliding = true;
 
-	UPROPERTY(EditAnywhere)
-	FVector HookLocation; 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsMantling = true;
 
-	UPROPERTY(EditAnywhere)
-	float GrappleHookCoolDown = 1.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsLedgeClimbing = true;
 
-	UPROPERTY(EditAnywhere)
-	bool GrappleHookEnabled = true; 
-
-	float ShootGrappleHook(); 
-
-	UPROPERTY(EditAnywhere)
-	UTimelineComponent* GrappleShootTimeline = nullptr; 
 
 
 // Sliding
