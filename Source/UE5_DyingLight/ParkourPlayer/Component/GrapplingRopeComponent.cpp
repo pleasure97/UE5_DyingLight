@@ -20,23 +20,25 @@ UGrapplingRopeComponent::UGrapplingRopeComponent()
 
 		FOnTimelineFloat Delegate;
 
-		Delegate.BindUFunction(this, TEXT("OnSunPower"));
+		Delegate.BindUFunction(this, TEXT("ShootGrappleHook"));
 
 		GrappleShootTimeline->AddInterpFloat(ObjectFinder.Object, Delegate);
-		GrappleShootTimeline->SetPlayRate(0.5f);
-		GrappleShootTimeline->SetLooping(true);
 	}
 
-	
 }
-
-
 // Called when the game starts
 void UGrapplingRopeComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InterpSpeed = Cast<UCurveFloat>(StaticLoadObject(UCurveFloat::StaticClass(), nullptr, TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_GrappleShootTimeline.Curve_GrappleShootTimeline'")));
+	Owner = GetOwner(); 
+	ensure(Owner); 
+
+	FollowCamera = Cast<UCameraComponent>(Owner->GetComponentByClass(UCameraComponent::StaticClass()));
+	ensure(FollowCamera); 
+
+	GrappleRope = Cast<UCableComponent>(Owner->GetComponentByClass(UCableComponent::StaticClass())); 
+	ensure(GrappleRope); 
 }
 
 
@@ -44,8 +46,6 @@ void UGrapplingRopeComponent::BeginPlay()
 void UGrapplingRopeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UGrapplingRopeComponent::GrappleHook()
@@ -60,9 +60,6 @@ void UGrapplingRopeComponent::GrappleHook()
 		CanGrappleHook = false;
 		GrappleHookEnabled = true;
 
-		UCameraComponent* FollowCamera = Cast<UCameraComponent>(Owner->GetComponentByClass(UCameraComponent::StaticClass()));
-		UCableComponent* GrappleRope = Cast<UCableComponent>(Owner->GetComponentByClass(UCableComponent::StaticClass()));
-
 		const FVector& Start = GrappleRope->GetComponentLocation();
 		const FVector& End = Start + FollowCamera->GetForwardVector() * GrappleHookDistance;
 		TArray<AActor*> IgnoreActors;
@@ -76,13 +73,9 @@ void UGrapplingRopeComponent::GrappleHook()
 		if (bHit)
 		{
 			HookLocation = HitResult.Location; 
-
-			// To be implemented 
-			// ShootGrappleHook
-			/*GrappleRope->SetVisibility(true);
-			FMath::VInterpTo(GrappleRope->GetComponentLocation(), HookLocation, UGameplayStatics::GetWorldDeltaSeconds(), )*/
-
-
+			
+			GrappleShootTimeline->PlayFromStart(); 
+			
 			ACharacter* OwnerCharacter = Cast<ACharacter>(Owner); 
 			OwnerCharacter->LaunchCharacter(FVector(0.f, 0.f, 500.f), true, true); 
 			
@@ -124,6 +117,15 @@ void UGrapplingRopeComponent::GrappleHook()
 			CanGrappleHook = true; 
 		}
 	}
+}
+
+void UGrapplingRopeComponent::ShootGrappleHook(float InterpSpeed)
+{
+	GrappleRope->SetVisibility(true); 
+	
+	FVector NewLocation = FMath::VInterpTo(GrappleRope->GetComponentLocation(), HookLocation, UGameplayStatics::GetWorldDeltaSeconds(this), InterpSpeed); 
+
+	GrappleRope->SetWorldLocation(NewLocation); 
 }
 
 

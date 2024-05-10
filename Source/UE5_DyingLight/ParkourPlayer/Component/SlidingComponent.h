@@ -60,13 +60,9 @@ protected:
 	UCurveFloat* InterpRotation = nullptr;
 
 protected:
-	// montage reference address
-	// 
 	UPROPERTY(EditAnywhere, Category = "Sliding|Montage")
 	UAnimMontage* SlidingMontage; 
 
-	// montage reference address
-	// 
 	UPROPERTY(EditAnywhere, Category = "Sliding|Montage")
 	UAnimMontage* SlidingEndMontage;
 

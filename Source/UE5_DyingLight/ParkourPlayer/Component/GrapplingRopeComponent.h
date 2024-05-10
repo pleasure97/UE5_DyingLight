@@ -27,6 +27,17 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+// For caching owner's another component
+protected:
+	UPROPERTY()
+	AActor* Owner = nullptr;
+
+	UPROPERTY()
+	UCameraComponent* FollowCamera = nullptr;
+
+	UPROPERTY()
+	UCableComponent* GrappleRope = nullptr; 
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Grapple Hook")
 	bool CanGrappleHook = true;
@@ -44,15 +55,15 @@ protected:
 	bool GrappleHookEnabled = true;
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Grapple Timeline")
+	UPROPERTY(EditAnywhere, Category = "Grapple Hook|Timeline")
 	UTimelineComponent* GrappleShootTimeline = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "Grapple Timeline")
-	UCurveFloat* InterpSpeed = nullptr;
-	
 
 protected:
 	UFUNCTION()
 	void GrappleHook(); 
+
+	UFUNCTION()
+	void ShootGrappleHook(float InterpSpeed);
+
 	
 };
