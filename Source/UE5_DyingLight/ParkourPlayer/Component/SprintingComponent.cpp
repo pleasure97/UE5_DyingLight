@@ -61,7 +61,6 @@ void USprintingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 void USprintingComponent::SprintTriggered()
 {
 	
-
 	if (CharMoveComp->Velocity.Size2D() > 10.f && (CharMoveComp->GetCurrentAcceleration() != FVector::ZeroVector))
 	{
 

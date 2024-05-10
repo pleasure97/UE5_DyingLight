@@ -4,8 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/TimelineComponent.h"
 #include "SlidingComponent.generated.h"
+
+
+USTRUCT()
+struct FAngleDirectionStruct
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere)
+	double Angle; 
+
+	UPROPERTY(EditAnywhere)
+	bool IsSlopeUp; 
+};
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -25,6 +40,21 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+// For caching owner's another component
+protected:
+	UPROPERTY()
+	AActor* Owner = nullptr;
+
+	UPROPERTY()
+	UCharacterMovementComponent* CharMoveComp = nullptr;
+
+	UPROPERTY()
+	USkeletalMeshComponent* CharMesh = nullptr;
+
+	UPROPERTY()
+	UCapsuleComponent* CapsuleComp = nullptr; 
+
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Sliding")
 	bool IsSliding = false; 
@@ -33,7 +63,10 @@ protected:
 	FVector CurrentSlidingVelocity; 
 
 	UPROPERTY(EditAnywhere, Category = "Sliding")
-	float CurrentAngle; 
+	double CurrentAngle; 
+
+	UPROPERTY(EditAnywhere, Category = "Sliding")
+	double SpeedToStopSliding = 50.f;
 
 	UPROPERTY(EditAnywhere, Category = "Sliding")
 	FRotator DefaultYawRotation; 
@@ -45,19 +78,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Sliding|Capsule")
 	UTimelineComponent* ScaleCapsuleTimeline = nullptr;
 
-	// curve reference address
-	// TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_CapsuleScale.Curve_CapsuleScale'")
-	UPROPERTY(EditAnywhere, Category = "Sliding|Capsule")
-	UCurveFloat* CapsuleScale = nullptr;
-
-protected:
 	UPROPERTY(EditAnywhere, Category = "Sliding|Rotation")
 	UTimelineComponent* ResetSlideRotation = nullptr;
-
-	// curve reference address
-	// TEXT("/Script/Engine.CurveFloat'/Game/Blueprints/Curves/Curve_InterpRotation.Curve_InterpRotation'")
-	UPROPERTY(EditAnywhere, Category = "Sliding|Rotation")
-	UCurveFloat* InterpRotation = nullptr;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Sliding|Montage")
@@ -72,4 +94,31 @@ protected:
 
 	UFUNCTION()
 	void RevertCapsule();
+	
+	UFUNCTION()
+	void ScaleCapsule(float Value); 
+
+	UFUNCTION()
+	void CheckIfOnFloor(float TraceRadius, float TraceHalfHeight, float MontageBlendOutTime); 
+
+	UFUNCTION()
+	void CheckShouldContinueSliding(FTimerHandle SlidingTraceHandle); 
+
+	UFUNCTION()
+	void ContinueSliding(FTimerHandle SildingTraceHandle, FTimerHandle ContinueSlidingHandle); 
+
+	UFUNCTION()
+	FAngleDirectionStruct FindCurrentFloorAngleAndDirection(); 
+
+	UFUNCTION()
+	void PlayGetUpAnimation(FTimerHandle SlideTraceHandle); 
+
+	UFUNCTION()
+	void ResetXYRotation(float Value); 
+
+	UFUNCTION()
+	void ResetWalkMaxSpeedAndAccel(); 
+
+	UFUNCTION()
+	bool CheckIfHitSurface(float TraceZOffset, float Radius, float CompareAngle, EDrawDebugTrace::Type DrawDebugType);
 };
