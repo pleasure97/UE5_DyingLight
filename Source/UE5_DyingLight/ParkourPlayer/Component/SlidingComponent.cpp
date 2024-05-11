@@ -2,7 +2,6 @@
 
 
 #include "ParkourPlayer/Component/SlidingComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
@@ -209,7 +208,7 @@ void USlidingComponent::ContinueSliding(FTimerHandle SlidingTraceHandle, FTimerH
 
 FAngleDirectionStruct USlidingComponent::FindCurrentFloorAngleAndDirection()
 {
-	const FVector& FloorNormal = CharMoveComp->CurrentFloor.HitResult.Normal;
+	FVector FloorNormal = CharMoveComp->CurrentFloor.HitResult.Normal;
 	double Angle = UKismetMathLibrary::DegAcos(FVector::DotProduct(FloorNormal, FVector(0., 0., 1.)));
 
 	FRotator SlopeMatrix = FRotationMatrix::MakeFromXY(FloorNormal, Owner->GetActorForwardVector()).Rotator();
@@ -292,6 +291,10 @@ bool USlidingComponent::CheckIfHitSurface(float TraceZOffset, float Radius, floa
 		{
 			return false; 
 		}
+	}
+	else
+	{
+		return false;
 	}
 
 	

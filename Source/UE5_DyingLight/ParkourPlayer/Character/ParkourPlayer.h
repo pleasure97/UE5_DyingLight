@@ -41,6 +41,12 @@ public:
 
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	USpringArmComponent* CameraBoom;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* FollowCamera;
+
 	UPROPERTY(EditAnywhere)
 	UCableComponent* GrappleRope;
 
@@ -85,10 +91,10 @@ protected:
 
 
 public:
-	virtual void Move(const FInputActionValue& Value);
-	virtual void Look(const FInputActionValue& Value);
-	virtual void Jump(const FInputActionValue& Value);
-	virtual void StopJumping(const FInputActionValue& nValue);
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void Jump(const FInputActionValue& Value);
+	void StopJumping(const FInputActionValue& nValue);
 
 
 

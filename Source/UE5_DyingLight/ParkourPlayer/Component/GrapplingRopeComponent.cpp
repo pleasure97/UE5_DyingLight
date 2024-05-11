@@ -50,10 +50,6 @@ void UGrapplingRopeComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 void UGrapplingRopeComponent::GrappleHook(const FInputActionValue& Value)
 {
-	AActor* Owner = GetOwner(); 
-
-	ensure(Owner); 
-
 	// Check for surface 
 	if (CanGrappleHook)
 	{

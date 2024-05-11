@@ -49,9 +49,17 @@ protected:
 	UPROPERTY()
 	UMotionWarpingComponent* MotionWarping = nullptr; 
 
+	UPROPERTY()
+	USkeletalMeshComponent* CharMesh = nullptr; 
+
 protected:
 	UPROPERTY(EditAnywhere, Category="Mantling")
 	bool CanMantle = false; 
+
+protected:
+	UPROPERTY(EditAnywhere, Category = "Mantling|Montage")
+	UAnimMontage* MantlingMontage;
+
 
 public:
 	UFUNCTION()

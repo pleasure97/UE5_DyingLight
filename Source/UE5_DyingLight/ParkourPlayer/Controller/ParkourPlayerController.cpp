@@ -14,8 +14,6 @@ void AParkourPlayerController::BeginPlay()
 
 	const UParkourPlayerInputDataConfig* ParkourPlayerInputDataConfig = GetDefault<UParkourPlayerInputDataConfig>();
 	Subsystem->AddMappingContext(ParkourPlayerInputDataConfig->InputMappingContext, 0);
-
-	SetControlRotation(FRotator(-30., 0., 0.));
 }
 
 void AParkourPlayerController::SetupInputComponent()
