@@ -2,13 +2,20 @@
 
 
 #include "ParkourPlayer/Controller/ParkourPlayerController.h"
-#include "EnhancedInputComponent.h"
-#include "Data/Input/BasicInputDataConfig.h"
-#include "ParkourPlayer/Character/ParkourPlayer.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Data/Input/ParkourPlayerInputDataConfig.h"
+
 
 void AParkourPlayerController::BeginPlay()
 {
+	Super::BeginPlay(); 
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem =
+		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+
+	const UParkourPlayerInputDataConfig* ParkourPlayerInputDataConfig = GetDefault<UParkourPlayerInputDataConfig>();
+	Subsystem->AddMappingContext(ParkourPlayerInputDataConfig->InputMappingContext, 0);
+
+	SetControlRotation(FRotator(-30., 0., 0.));
 }
 
 void AParkourPlayerController::SetupInputComponent()
@@ -18,47 +25,37 @@ void AParkourPlayerController::SetupInputComponent()
 	UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
 	ensure(EnhancedInputComponent);
 
-	const UBasicInputDataConfig* BasicInputDataConfig = GetDefault<UBasicInputDataConfig>();
-	EnhancedInputComponent->BindAction(BasicInputDataConfig->Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
-	EnhancedInputComponent->BindAction(BasicInputDataConfig->Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
-}
-
-void AParkourPlayerController::Move(const FInputActionValue& InputActionValue)
-{
-	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn()); 
-
-	const FRotator& Rotation = GetControlRotation(); 
-	const FRotator& YawRotation = FRotator(0.f, Rotation.Yaw, 0.); 
-
-	const FVector& ForwardVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X); 
-	const FVector& RightVector = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y); 
-
-	const FVector& ActionValue = InputActionValue.Get<FVector>(); 
-
-
-	if (ParkourPlayer->CanMove)
-	{
-		ParkourPlayer->AddMovementInput(ForwardVector, ActionValue.Y); 
-	}
+	const UParkourPlayerInputDataConfig* ParkourPlayerInputDataConfig = GetDefault<UParkourPlayerInputDataConfig>();
 	
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+
+	if (ParkourPlayer)
+	{
+		// Default
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Move, ETriggerEvent::Triggered, ParkourPlayer, &AParkourPlayer::Move);
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Look, ETriggerEvent::Triggered, ParkourPlayer, &AParkourPlayer::Look);
+
+		// Jump 
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Started, ParkourPlayer, &AParkourPlayer::Jump);
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Completed, ParkourPlayer, &AParkourPlayer::StopJumping);
+	
+		// Sprint
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintTriggered);
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Started, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintStarted);
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Completed, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintCompleted);
+
+		// Grapple Rope
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->GrappleRope, ETriggerEvent::Triggered, ParkourPlayer->GrapplingRopeComponent, &UGrapplingRopeComponent::GrappleHook);
+
+		// Slide
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, ParkourPlayer->SlidingComponent, &USlidingComponent::Slide);
+
+		// Mantle 
+		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Mantle, ETriggerEvent::Triggered, ParkourPlayer->MantlingComponent,&UMantlingComponent::Mantle);
+		
+		// Ledge Climb
+
+		// Attack 
+	}
 }
-
-void AParkourPlayerController::GrappleRope(const FInputActionValue& InputActionValue)
-{
-}
-
-void AParkourPlayerController::Slide(const FInputActionValue& InputActionValue)
-{
-
-}
-
-void AParkourPlayerController::Mantle(const FInputActionValue& InputActionValue)
-{
-
-}
-
-void AParkourPlayerController::LedgeClimb(const FInputActionValue& InputActionValue)
-{
-}
-
 

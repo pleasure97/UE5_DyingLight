@@ -29,41 +29,4 @@ UBasicInputDataConfig::UBasicInputDataConfig()
 		check(Asset.Succeeded());
 		Jump = Asset.Object;
 	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_GrappleRope'") };
-		check(Asset.Succeeded());
-		GrappleRope = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_Slide'") };
-		check(Asset.Succeeded());
-		Slide = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_Mantle'") };
-		check(Asset.Succeeded());
-		Mantle = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_Sprint'") };
-		check(Asset.Succeeded());
-		Sprint = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_DropKick'") };
-		check(Asset.Succeeded());
-		DropKick = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_Attack'") };
-		check(Asset.Succeeded());
-		Attack = Asset.Object;
-	}
-
 }

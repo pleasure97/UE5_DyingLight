@@ -58,7 +58,7 @@ void USprintingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
-void USprintingComponent::SprintTriggered()
+void USprintingComponent::SprintTriggered(const FInputActionValue& Value)
 {
 	
 	if (CharMoveComp->Velocity.Size2D() > 10.f && (CharMoveComp->GetCurrentAcceleration() != FVector::ZeroVector))
@@ -71,7 +71,7 @@ void USprintingComponent::SprintTriggered()
 	}
 }
 
-void USprintingComponent::SprintStarted()
+void USprintingComponent::SprintStarted(const FInputActionValue& Value)
 {
 	IsSprinting = true; 
 
@@ -81,7 +81,7 @@ void USprintingComponent::SprintStarted()
 
 }
 
-void USprintingComponent::SprintCompleted()
+void USprintingComponent::SprintCompleted(const FInputActionValue& Value)
 {
 	CharMoveComp->MaxWalkSpeed = DefaultWalkSpeed; 
 

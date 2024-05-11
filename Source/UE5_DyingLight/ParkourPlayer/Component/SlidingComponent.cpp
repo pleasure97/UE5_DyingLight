@@ -5,7 +5,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -59,9 +58,6 @@ void USlidingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// To be implemented
-	// Curve, Timeline, Montage may need to be loaded 
-	
 	Owner = GetOwner(); 
 	ensure(Owner); 
 
@@ -85,7 +81,7 @@ void USlidingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	// ...
 }
 
-void USlidingComponent::Slide()
+void USlidingComponent::Slide(const FInputActionValue& Value)
 {	
 	if (CharMoveComp->Velocity.Size() > 200.)
 	{

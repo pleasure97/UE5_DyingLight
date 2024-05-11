@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "Components/TimelineComponent.h"
 #include "Camera/CameraComponent.h"
+#include "InputActionValue.h"
 #include "SprintingComponent.generated.h"
 
 
@@ -64,15 +65,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Sprinting|Montage")
 	UAnimMontage* SprintingStopMontage;
 
-protected:
+public:
 	UFUNCTION()
-	void SprintTriggered(); 
+	void SprintTriggered(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void SprintStarted(); 
+	void SprintStarted(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void SprintCompleted(); 
+	void SprintCompleted(const FInputActionValue& Value);
 
 	UFUNCTION()
 	void UpdateFOV(float Value); 

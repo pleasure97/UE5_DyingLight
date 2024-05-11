@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "CableComponent.h"
@@ -10,14 +11,18 @@
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Component/GrapplingRopeComponent.h"
 #include "Component/SlidingComponent.h"
-#include "UE5_DyingLightCharacter.h"
+#include "Component/SprintingComponent.h"
+#include "Component/MantlingComponent.h"
+#include "InputActionValue.h"
 #include "ParkourPlayer.generated.h"
 
 
 UCLASS()
-class UE5_DYINGLIGHT_API AParkourPlayer : public AUE5_DyingLightCharacter
+class UE5_DYINGLIGHT_API AParkourPlayer : public ACharacter
 {
 	GENERATED_BODY()
+
+	friend class AParkourPlayerController; 
 
 public:
 	// Sets default values for this character's properties
@@ -34,6 +39,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
 protected:
 	UPROPERTY(EditAnywhere)
 	UCableComponent* GrappleRope;
@@ -43,6 +49,22 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UAIPerceptionStimuliSourceComponent* AIPerceptionStimuliSource; 
+
+// parkour action component
+protected:
+
+	UPROPERTY(EditAnywhere)
+	UGrapplingRopeComponent* GrapplingRopeComponent = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	USlidingComponent* SlidingComponent = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	USprintingComponent* SprintingComponent = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	UMantlingComponent* MantlingComponent = nullptr; 
+
 
 // parkour action state 
 protected:
@@ -62,14 +84,11 @@ protected:
 	bool IsLedgeClimbing = true;
 
 
-// parkour action component
-protected:
-
-	UPROPERTY(EditAnywhere)
-	UGrapplingRopeComponent* GrapplingRopeComponent = nullptr; 
-
-	UPROPERTY(EditAnywhere)
-	USlidingComponent* SlidingComponent = nullptr; 
+public:
+	virtual void Move(const FInputActionValue& Value);
+	virtual void Look(const FInputActionValue& Value);
+	virtual void Jump(const FInputActionValue& Value);
+	virtual void StopJumping(const FInputActionValue& nValue);
 
 
 

@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "MotionWarpingComponent.h"
+#include "InputActionValue.h"
 #include "MantlingComponent.generated.h"
 
 USTRUCT()
@@ -52,9 +53,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Mantling")
 	bool CanMantle = false; 
 
-protected:
+public:
 	UFUNCTION()
-	void Mantle(); 
+	void Mantle(const FInputActionValue& Value);
 
 	UFUNCTION()
 	FMantlePosStruct TraceMantle(float InitialTraceLength, float SecondaryTraceZOffset, float FallingHeightMultiplier);

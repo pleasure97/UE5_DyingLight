@@ -42,7 +42,7 @@ void UMantlingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 	// ...
 }
 
-void UMantlingComponent::Mantle()
+void UMantlingComponent::Mantle(const FInputActionValue& Value)
 {
 	FMantlePosStruct MantlePositons = TraceMantle(120., 200., 0.5);	
 

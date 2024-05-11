@@ -7,6 +7,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TimelineComponent.h"
+#include "InputActionValue.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "SlidingComponent.generated.h"
 
 
@@ -88,9 +90,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Sliding|Montage")
 	UAnimMontage* SlidingEndMontage;
 
-protected:
+public:
 	UFUNCTION()
-	void Slide();
+	void Slide(const FInputActionValue& Value);
 
 	UFUNCTION()
 	void RevertCapsule();

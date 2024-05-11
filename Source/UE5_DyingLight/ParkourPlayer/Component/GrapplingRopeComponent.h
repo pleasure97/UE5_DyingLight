@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "CableComponent.h"
 #include "Components/TimelineComponent.h"
+#include "InputActionValue.h"
 #include "GrapplingRopeComponent.generated.h"
 
 
@@ -58,9 +59,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Grapple Hook|Timeline")
 	UTimelineComponent* GrappleShootTimeline = nullptr;
 
-protected:
+public:
 	UFUNCTION()
-	void GrappleHook(); 
+	void GrappleHook(const FInputActionValue& Value);
 
 	UFUNCTION()
 	void ShootGrappleHook(float InterpSpeed);

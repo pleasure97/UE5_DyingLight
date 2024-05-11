@@ -20,14 +20,8 @@ public:
 	UInputMappingContext* InputMappingContext = nullptr;
 	
 public:
+	// default action 
 	UInputAction* Move = nullptr;
 	UInputAction* Look = nullptr;
 	UInputAction* Jump = nullptr;
-	UInputAction* GrappleRope = nullptr;
-	UInputAction* Slide = nullptr;
-	UInputAction* Mantle = nullptr;
-	UInputAction* Sprint = nullptr;
-	UInputAction* DropKick = nullptr;
-	UInputAction* Attack = nullptr;
-
 };

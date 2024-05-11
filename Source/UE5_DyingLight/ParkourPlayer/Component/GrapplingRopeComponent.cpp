@@ -48,7 +48,7 @@ void UGrapplingRopeComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UGrapplingRopeComponent::GrappleHook()
+void UGrapplingRopeComponent::GrappleHook(const FInputActionValue& Value)
 {
 	AActor* Owner = GetOwner(); 
 
