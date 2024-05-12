@@ -5,6 +5,7 @@
 #include "Data/Input/ParkourPlayerInputDataConfig.h"
 
 
+
 void AParkourPlayerController::BeginPlay()
 {
 	Super::BeginPlay(); 
@@ -14,7 +15,16 @@ void AParkourPlayerController::BeginPlay()
 
 	const UParkourPlayerInputDataConfig* ParkourPlayerInputDataConfig = GetDefault<UParkourPlayerInputDataConfig>();
 	Subsystem->AddMappingContext(ParkourPlayerInputDataConfig->InputMappingContext, 0);
+
 }
+
+void AParkourPlayerController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn); 
+
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(aPawn); 
+}
+
 
 void AParkourPlayerController::SetupInputComponent()
 {
@@ -25,35 +35,103 @@ void AParkourPlayerController::SetupInputComponent()
 
 	const UParkourPlayerInputDataConfig* ParkourPlayerInputDataConfig = GetDefault<UParkourPlayerInputDataConfig>();
 	
-	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
-
-	if (ParkourPlayer)
-	{
-		// Default
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Move, ETriggerEvent::Triggered, ParkourPlayer, &AParkourPlayer::Move);
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Look, ETriggerEvent::Triggered, ParkourPlayer, &AParkourPlayer::Look);
-
-		// Jump 
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Started, ParkourPlayer, &AParkourPlayer::Jump);
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Completed, ParkourPlayer, &AParkourPlayer::StopJumping);
 	
-		// Sprint
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintTriggered);
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Started, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintStarted);
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Completed, ParkourPlayer->SprintingComponent, &USprintingComponent::SprintCompleted);
+	// Default
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Move, ETriggerEvent::Triggered, this, &ThisClass::Move);
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Look, ETriggerEvent::Triggered, this, &ThisClass::Look);
 
-		// Grapple Rope
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->GrappleRope, ETriggerEvent::Triggered, ParkourPlayer->GrapplingRopeComponent, &UGrapplingRopeComponent::GrappleHook);
+	// Jump 
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Started, this, &ThisClass::Jump);
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Jump, ETriggerEvent::Completed, this, &ThisClass::StopJumping);
+	
+	// Sprint
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, this, &ThisClass::SprintTriggered);
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Started, this, &ThisClass::SprintStarted);
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Completed, this, &ThisClass::SprintCompleted);
 
-		// Slide
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, ParkourPlayer->SlidingComponent, &USlidingComponent::Slide);
+	// Grapple Rope
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->GrappleRope, ETriggerEvent::Triggered, this, &ThisClass::GrappleHook);
 
-		// Mantle 
-		EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Mantle, ETriggerEvent::Triggered, ParkourPlayer->MantlingComponent,&UMantlingComponent::Mantle);
+	// Slide
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Sprint, ETriggerEvent::Triggered, this, &ThisClass::Slide);
+
+	// Mantle 
+	EnhancedInputComponent->BindAction(ParkourPlayerInputDataConfig->Mantle, ETriggerEvent::Triggered, this, &ThisClass::Mantle);
 		
-		// Ledge Climb
+	// Ledge Climb
 
-		// Attack 
+	// Attack 
 	}
+
+void AParkourPlayerController::Move(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->Move(Value); 
 }
+void AParkourPlayerController::Look(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->Look(Value);
+}
+void AParkourPlayerController::Jump(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->Jump(Value);
+}
+void AParkourPlayerController::StopJumping(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->StopJumping(Value);
+}
+void AParkourPlayerController::SprintTriggered(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->SprintingComponent->SprintTriggered(Value); 
+}
+void AParkourPlayerController::SprintStarted(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->SprintingComponent->SprintStarted(Value);
+}
+void AParkourPlayerController::SprintCompleted(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->SprintingComponent->SprintCompleted(Value);
+}
+void AParkourPlayerController::GrappleHook(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->GrapplingRopeComponent->GrappleHook(Value);
+}
+void AParkourPlayerController::Slide(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->SlidingComponent->Slide(Value);
+}
+void AParkourPlayerController::Mantle(const FInputActionValue& Value)
+{
+	AParkourPlayer* ParkourPlayer = Cast<AParkourPlayer>(GetPawn());
+	ensure(ParkourPlayer);
+
+	ParkourPlayer->MantlingComponent->Mantle(Value);
+}
+
 
