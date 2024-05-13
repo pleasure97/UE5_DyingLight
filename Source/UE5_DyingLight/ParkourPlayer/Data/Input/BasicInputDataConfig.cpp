@@ -29,16 +29,4 @@ UBasicInputDataConfig::UBasicInputDataConfig()
 		check(Asset.Succeeded());
 		Jump = Asset.Object;
 	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_LeftShift'") };
-		check(Asset.Succeeded());
-		LeftShift = Asset.Object;
-	}
-	{
-		static ConstructorHelpers::FObjectFinder<UInputAction> Asset
-		{ TEXT("Script/EnhancedInput.InputAction'/Game/ThirdPerson/Input/Actions/IA_LeftClick'") };
-		check(Asset.Succeeded());
-		LeftClick = Asset.Object;
-	}
 }

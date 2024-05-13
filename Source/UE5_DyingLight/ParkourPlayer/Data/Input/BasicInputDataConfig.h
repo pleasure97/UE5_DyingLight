@@ -20,10 +20,8 @@ public:
 	UInputMappingContext* InputMappingContext = nullptr;
 	
 public:
+	// default action 
 	UInputAction* Move = nullptr;
 	UInputAction* Look = nullptr;
 	UInputAction* Jump = nullptr;
-	UInputAction* LeftShift = nullptr;
-	UInputAction* LeftClick = nullptr;
-
 };
