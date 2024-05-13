@@ -57,8 +57,8 @@ void USlidingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Owner = GetOwner(); 
-	ensure(Owner); 
+	Owner = GetOwner();
+	ensure(Owner);
 
 	CharMoveComp = Cast<UCharacterMovementComponent>(Owner->GetComponentByClass(UCharacterMovementComponent::StaticClass())); 
 	ensure(CharMoveComp); 
